@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CharacterDeserializer extends DeserializerValidator{
     public JSONObject jsonObject = new JSONObject();
-    public MarvelCharacter character = new MarvelCharacter();
+    public MarvelCharacter character;
 
     public void setJsonObject(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
@@ -37,6 +37,7 @@ public class CharacterDeserializer extends DeserializerValidator{
 
             JSONObject thumbnail = jsonObject.getJSONObject(JsonKeys.CHARACTER_THUMBNAIL);
 
+            character = new MarvelCharacter();
             character.setId(id);
             character.setName(name);
             character.setComics(comics);

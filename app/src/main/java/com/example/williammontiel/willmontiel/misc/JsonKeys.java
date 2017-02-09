@@ -20,8 +20,19 @@ public class JsonKeys {
      */
     public static final String CHARACTER_ID = "id";
     public static final String CHARACTER_NAME = "name";
-    public static final String CHARACTER_THUMBNAIL = "thumbnail";
     public static final String CHARACTER_COMICS_OBJECT = "comics";
     public static final String CHARACTER_COMICS_ARRAY = "items";
+    public static final String CHARACTER_THUMBNAIL = "thumbnail";
+        public static final String CHARACTER_THUMBNAIL_PATH = "path";
+        public static final String CHARACTER_THUMBNAIL_EXT = "extension";
+        /**
+         * Image Ratio
+         */
+        public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_SMAILL = "portrait_small"; //50x75px
+        public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_MEDIUM = "portrait_medium"; //100x150px
+        public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_XLARGE = "portrait_xlarge"; //150x225px
+        public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_FANTASTIC = "portrait_fantastic"; //168x252px
+        public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_UNCANNY = "portrait_uncanny"; //300x450px
+        public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_INCREDIBLE= "portrait_incredible"; //216x324px
 
 }

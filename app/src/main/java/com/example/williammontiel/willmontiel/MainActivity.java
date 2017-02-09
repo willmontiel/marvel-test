@@ -104,7 +104,7 @@ public class MainActivity extends ActivityBase {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new MarvelAdapter(items);
+        mAdapter = new MarvelAdapter(items, getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
 
         showProgress(false, layout, progress);

@@ -37,7 +37,6 @@ public class CharacterDeserializer extends DeserializerValidator{
 
             JSONObject thumbnail = jsonObject.getJSONObject(JsonKeys.CHARACTER_THUMBNAIL);
 
-
             character.setId(id);
             character.setName(name);
             character.setComics(comics);

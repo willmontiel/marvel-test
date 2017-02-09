@@ -30,6 +30,9 @@ public class VolleyErrorHandler {
                 String statusCode = String.valueOf(this.volleyError.networkResponse.statusCode);
 
                 switch (statusCode) {
+                    case "401":
+                        this.message = Cons.ERROR_401;
+                        break;
                     case "404":
                         this.message = Cons.ERROR_404;
                         break;

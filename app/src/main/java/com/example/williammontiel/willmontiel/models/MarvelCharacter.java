@@ -1,5 +1,9 @@
 package com.example.williammontiel.willmontiel.models;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 /**
  * Created by william.montiel on 09/02/2017.
  */
@@ -7,13 +11,10 @@ package com.example.williammontiel.willmontiel.models;
 public class MarvelCharacter {
     public int id;
     public String name;
-    public String comic;
-    public String imageUrl;
+    public List<JSONObject> comics;
+    public JSONObject thumbnail;
 
-    public MarvelCharacter(int id, String name, String imageUrl, String comic) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
+    public MarvelCharacter() {
     }
 
     public int getId() {
@@ -32,19 +33,19 @@ public class MarvelCharacter {
         this.name = name;
     }
 
-    public String getComic() {
-        return comic;
+    public List<JSONObject> getComics() {
+        return comics;
     }
 
-    public void setComic(String comic) {
-        this.comic = comic;
+    public void setComics(List<JSONObject> comics) {
+        this.comics = comics;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public JSONObject getThumbnail() {
+        return this.thumbnail;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setThumbnail(JSONObject thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

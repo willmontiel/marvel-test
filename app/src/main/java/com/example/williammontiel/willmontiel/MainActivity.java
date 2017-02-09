@@ -23,9 +23,15 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.example.williammontiel.willmontiel.adapters.MarvelAdapter;
+import com.example.williammontiel.willmontiel.deserializers.CharacterDeserializer;
+import com.example.williammontiel.willmontiel.misc.JsonKeys;
 import com.example.williammontiel.willmontiel.misc.VolleyErrorHandler;
 import com.example.williammontiel.willmontiel.models.MarvelCharacter;
 import com.example.williammontiel.willmontiel.resources.Cons;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,18 +53,7 @@ public class MainActivity extends ActivityBase {
         layout = findViewById(R.id.activity_main);
         progress = findViewById(R.id.main_progress);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-        //mAdapter = new MarvelAdapter(getCharacters());
-        mRecyclerView.setAdapter(mAdapter);
+        getCharacters();
     }
 
     private void getCharacters() {
@@ -75,11 +70,11 @@ public class MainActivity extends ActivityBase {
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                Cons.GET_ALL_CHARACTERS,
+                Cons.GET_ALL_CHARACTERS + "0&ts=1464344031.142341",
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("LALA", response);
+                        processResponseData(response);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
@@ -98,20 +93,48 @@ public class MainActivity extends ActivityBase {
         mRequestQueue.add(stringRequest);
     }
 
-    /*
-    private List<MarvelCharacter> getCharacters() {
-        List items = new ArrayList();
-        items.add(new MarvelCharacter(1, "Angel Beats", "", ""));
-        items.add(new MarvelCharacter(2, "LALA", "", ""));
-        items.add(new MarvelCharacter(3, "LOLO", "", ""));
-        items.add(new MarvelCharacter(4, "LULU", "", ""));
-        items.add(new MarvelCharacter(5, "JEJE", "", ""));
+    private void setRecyclerView(List items) {
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
-        return items;
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MarvelAdapter(items);
+        mRecyclerView.setAdapter(mAdapter);
+
+        showProgress(false, layout, progress);
     }
-    */
 
-    private void setRecyclerView() {
+    public void processResponseData(String response) {
+        try {
+            JSONObject resObj = new JSONObject(response);
+            JSONObject dataObj = resObj.getJSONObject(JsonKeys.DATA);
+            JSONArray chars = dataObj.getJSONArray(JsonKeys.RESULTS);
 
+            if (chars.length() <= 0) {
+                setErrorSnackBar(layout, Cons.NO_CHARACTERS);
+            }
+            else {
+                List items = new ArrayList();
+                CharacterDeserializer deserializer = new CharacterDeserializer();
+
+                for (int i = 0; i < chars.length(); i++) {
+                    JSONObject character = chars.getJSONObject(i);
+                    deserializer.setJsonObject(character);
+                    deserializer.deserialize();
+                    items.add(deserializer.getCharacter());
+                }
+
+                setRecyclerView(items);
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 }

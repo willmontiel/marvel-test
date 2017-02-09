@@ -11,4 +11,17 @@ public class JsonKeys {
     public static final String MESSAGE = "message";
     public static final String ERROR = "error";
     public static final String RESPONSE = "response";
+    public static final String CODE = "code";
+    public static final String DATA = "data";
+    public static final String RESULTS = "results";
+
+    /**
+     * Marvel Character
+     */
+    public static final String CHARACTER_ID = "id";
+    public static final String CHARACTER_NAME = "name";
+    public static final String CHARACTER_THUMBNAIL = "thumbnail";
+    public static final String CHARACTER_COMICS_OBJECT = "comics";
+    public static final String CHARACTER_COMICS_ARRAY = "items";
+
 }

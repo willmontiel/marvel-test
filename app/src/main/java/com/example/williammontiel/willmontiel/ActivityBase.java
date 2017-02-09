@@ -26,7 +26,7 @@ public class ActivityBase extends AppCompatActivity {
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show, final View layout, final View progress) {
+    protected void showProgress(final boolean show, final View layout, final View progress) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -53,7 +53,7 @@ public class ActivityBase extends AppCompatActivity {
         }
     }
 
-    private void validateErrorResponse(VolleyError error) {
+    protected void validateErrorResponse(VolleyError error) {
         VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
         voleyErrorHandler.setVolleyError(error);
         voleyErrorHandler.process();
@@ -63,7 +63,7 @@ public class ActivityBase extends AppCompatActivity {
         showProgress(false, layout, progress);
     }
 
-    public void setErrorSnackBar(View view, String message) {
+    protected void setErrorSnackBar(View view, String message) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         snackbar.show();
         View snackBarView = snackbar.getView();

@@ -1,33 +1,13 @@
 package com.example.williammontiel.willmontiel.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.android.volley.Cache;
-import com.android.volley.Network;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.williammontiel.willmontiel.R;
 import com.example.williammontiel.willmontiel.holders.CharacterHolder;
-import com.example.williammontiel.willmontiel.misc.JsonKeys;
 import com.example.williammontiel.willmontiel.models.MarvelCharacter;
-import com.example.williammontiel.willmontiel.resources.Cons;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -38,8 +18,6 @@ import java.util.List;
 public class MarvelAdapter extends RecyclerView.Adapter<CharacterHolder> {
     private List<MarvelCharacter> items;
     protected Context context;
-
-
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public MarvelAdapter(List<MarvelCharacter> items, Context context) {
@@ -57,7 +35,11 @@ public class MarvelAdapter extends RecyclerView.Adapter<CharacterHolder> {
         return new CharacterHolder(v, this.context);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    public void updateList(List<MarvelCharacter> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final CharacterHolder holder, int position) {
         MarvelCharacter character = this.items.get(position);

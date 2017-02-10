@@ -14,8 +14,9 @@ public class Cons {
     public static final String CHARACTER = "/public/characters/";
     public static final String APIKEY = "?apikey=";
     public static final String HASH = "&hash=";
-    public static final String OFFSET = "&offset=0";
+    public static final String OFFSET = "&offset=";
     public static final String TIMESTAMP = "&ts=";
+    public static final String QUERY = "&nameStartsWith=";
 
 
     public static final String GET_ALL_CHARACTERS = URL_BASE + API + ALL_CHARACTERS + APIKEY + MARVEL_DEVELOPER_APIKEY + HASH + MARVEL_DEVELOPER_HASH + OFFSET + TIMESTAMP + MARVEL_DEVELOPER_TIMESTAMP;

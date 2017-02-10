@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_character"
+    android:background="@color/colorAccent"
     tools:context="com.example.williammontiel.willmontiel.fragments.CharacterFragment">
 
     <ProgressBar
@@ -33,59 +34,61 @@
 
                 <ImageView
                     android:id="@+id/thumbnail"
-                    android:layout_width="200dp"
-                    android:layout_height="250dp"
-                    android:layout_gravity="left"
-                    android:scaleType="fitCenter" />
-
-                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Character"
-                        android:id="@+id/name"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="10dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Character Description"
-                        android:id="@+id/description"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="10dp" />
-                </LinearLayout>
+                    android:layout_height="400dp"
+                    android:layout_gravity="left"
+                    android:scaleType="centerCrop" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Character"
+                    android:id="@+id/name"
+                    android:textColor="@color/primaryLightText"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Character Description"
+                    android:id="@+id/description"
+                    android:textColor="@color/primaryLightText"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Comics"
-                    android:layout_alignParentTop="true"/>
+                    android:textColor="@color/primaryLightText"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_comics"
-                    android:layout_alignParentTop="true"/>
+                    android:textColor="@color/primaryLightText"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ver más"
                     android:id="@+id/more"
-                    android:layout_alignParentTop="true" />
+                    android:textColor="@color/primaryLightText"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

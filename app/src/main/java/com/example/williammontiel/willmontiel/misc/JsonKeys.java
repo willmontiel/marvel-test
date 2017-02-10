@@ -59,4 +59,11 @@ public class JsonKeys {
         public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_UNCANNY = "portrait_uncanny"; //300x450px
         public static final String CHARACTER_THUMBNAIL_RATIO_PORTRAIT_INCREDIBLE= "portrait_incredible"; //216x324px
 
+
+        public static final String CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_MEDIUM= "landscape_medium"; //175x130px
+        public static final String CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_XLARGE= "landscape_xlarge"; //270x200px
+        public static final String CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_AMAZING= "landscape_amazing"; //250x156px
+        public static final String CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_INCREDIBLE= "landscape_incredible"; //464x261px
+
+
 }

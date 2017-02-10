@@ -62,6 +62,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
 
     public void setSummaryData() {
         name.setText(this.character.getName());
+        description.setText(this.character.getDescription());
         setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_PORTRAIT_MEDIUM ));
         characterDetails();
     }
@@ -75,7 +76,6 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
 
         try {
             final String durl = url.getString(JsonKeys.CHARACTER_URLS_URL);
-            Log.d("LALA", durl);
             more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -94,7 +94,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
         name.setText(this.character.getName());
         description.setText(this.character.getDescription());
         total_comics.setText("Hay " + this.character.getTotalComics() + " comics disponibles para este personaje");
-        setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_PORTRAIT_UNCANNY ));
+        setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_INCREDIBLE ));
     }
 
     public String getUrlThumbnail(String size) {

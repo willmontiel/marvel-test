@@ -4,7 +4,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
@@ -32,7 +36,6 @@ public class CharacterActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String id = extras.getString(JsonKeys.CHARACTER_ID);
@@ -47,5 +50,4 @@ public class CharacterActivity extends ActivityBase {
         fragmentTransaction.add(R.id.fragment_container, characterFragment, "Services List Fragment");
         fragmentTransaction.commit();
     }
-
 }

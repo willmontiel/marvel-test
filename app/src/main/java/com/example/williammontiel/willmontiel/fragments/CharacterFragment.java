@@ -1,17 +1,11 @@
-package com.example.williammontiel.willmontiel;
+package com.example.williammontiel.willmontiel.fragments;
 
-import android.location.Location;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-
+import android.view.ViewGroup;
 import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
@@ -22,45 +16,63 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
-import com.example.williammontiel.willmontiel.adapters.MarvelAdapter;
+import com.example.williammontiel.willmontiel.R;
 import com.example.williammontiel.willmontiel.deserializers.CharacterDeserializer;
 import com.example.williammontiel.willmontiel.misc.JsonKeys;
-import com.example.williammontiel.willmontiel.misc.VolleyErrorHandler;
 import com.example.williammontiel.willmontiel.models.MarvelCharacter;
 import com.example.williammontiel.willmontiel.resources.Cons;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends ActivityBase {
+public class CharacterFragment extends FragmentBase {
 
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView mRecyclerView;
+    protected String idChar;
+    protected Context context;
+    protected MarvelCharacter character;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        layout = findViewById(R.id.activity_main);
-        progress = findViewById(R.id.main_progress);
-
-        getCharacters();
+    public CharacterFragment() {
+        // Required empty public constructor
     }
 
-    private void getCharacters() {
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public static CharacterFragment newInstance(String id, Context context) {
+        CharacterFragment fragment = new CharacterFragment();
+        fragment.setContext(context);
+        Bundle args = new Bundle();
+        args.putString(JsonKeys.CHARACTER_ID, id);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.idChar = getArguments().getString(JsonKeys.CHARACTER_ID);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_character, container, false);
+        layout = v.findViewById(R.id.character_layout);
+        progress = v.findViewById(R.id.character_progress);
+        getCharacter();
+        return v;
+    }
+
+
+    private void getCharacter() {
         showProgress(true, layout, progress);
 
         // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+        Cache cache = new DiskBasedCache(this.context.getCacheDir(), 1024 * 1024); // 1MB cap
         // Set up the network to use HttpURLConnection as the HTTP client.
         Network network = new BasicNetwork(new HurlStack());
         // Instantiate the RequestQueue with the cache and network.
@@ -70,7 +82,7 @@ public class MainActivity extends ActivityBase {
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                Cons.GET_ALL_CHARACTERS,
+                Cons.URL_BASE + Cons.API + Cons.CHARACTER + idChar + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -80,7 +92,7 @@ public class MainActivity extends ActivityBase {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                            validateErrorResponse(error);
+                        validateErrorResponse(error);
                     }
                 }) {
         };
@@ -93,23 +105,6 @@ public class MainActivity extends ActivityBase {
         mRequestQueue.add(stringRequest);
     }
 
-    private void setRecyclerView(List items) {
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new MarvelAdapter(items, getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
-
-        showProgress(false, layout, progress);
-    }
-
     public void processResponseData(String response) {
         try {
             JSONObject resObj = new JSONObject(response);
@@ -120,21 +115,21 @@ public class MainActivity extends ActivityBase {
                 setErrorSnackBar(layout, Cons.NO_CHARACTERS);
             }
             else {
-                List items = new ArrayList();
                 CharacterDeserializer deserializer = new CharacterDeserializer();
 
                 for (int i = 0; i < chars.length(); i++) {
                     JSONObject character = chars.getJSONObject(i);
                     deserializer.setJsonObject(character);
                     deserializer.deserialize();
-                    items.add(deserializer.getCharacter());
+                    this.character = deserializer.getCharacter();
                 }
 
-                setRecyclerView(items);
+                
             }
         }
         catch (JSONException ex) {
             ex.printStackTrace();
         }
     }
+
 }

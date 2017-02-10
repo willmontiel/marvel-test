@@ -69,6 +69,8 @@ public class JsonKeys {
     /**
      * User
      */
+    public static final String USER_TABLE_NAME = "user";
+    public static final String USER_ID = "idUser";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
 }

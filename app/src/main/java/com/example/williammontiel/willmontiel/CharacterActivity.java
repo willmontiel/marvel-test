@@ -36,7 +36,6 @@ public class CharacterActivity extends ActivityBase {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String id = extras.getString(JsonKeys.CHARACTER_ID);
-            Log.d("LALA", id);
             setFragment(id);
         }
     }

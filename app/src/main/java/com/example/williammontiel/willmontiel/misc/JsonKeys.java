@@ -20,8 +20,32 @@ public class JsonKeys {
      */
     public static final String CHARACTER_ID = "id";
     public static final String CHARACTER_NAME = "name";
+    public static final String CHARACTER_DESCRIPTION = "description";
+
     public static final String CHARACTER_COMICS_OBJECT = "comics";
+    public static final String CHARACTER_TOTAL_COMICS = "available";
+    public static final String CHARACTER_COMICS_RESOURCE_URI = "resourceURI";
+    public static final String CHARACTER_COMICS_NAME = "name";
     public static final String CHARACTER_COMICS_ARRAY = "items";
+
+    public static final String CHARACTER_SERIES_OBJECT = "series";
+    public static final String CHARACTER_TOTAL_SERIES = "available";
+    public static final String CHARACTER_SERIES_RESOURCE_URI = "resourceURI";
+    public static final String CHARACTER_SERIES_NAME = "name";
+    public static final String CHARACTER_SERIES_ARRAY = "items";
+
+    public static final String CHARACTER_STORIES_OBJECT = "stories";
+    public static final String CHARACTER_TOTAL_STORIES = "available";
+    public static final String CHARACTER_STORIES_RESOURCE_URI = "resourceURI";
+    public static final String CHARACTER_STORIES_NAME = "name";
+    public static final String CHARACTER_STORIES_TYPE = "type";
+    public static final String CHARACTER_STORIES_ARRAY = "items";
+
+    public static final String CHARACTER_URLS_URL = "url";
+    public static final String CHARACTER_URLS_TYPE = "type";
+    public static final String CHARACTER_URLS_ARRAY = "urls";
+
+
     public static final String CHARACTER_THUMBNAIL = "thumbnail";
         public static final String CHARACTER_THUMBNAIL_PATH = "path";
         public static final String CHARACTER_THUMBNAIL_EXT = "extension";

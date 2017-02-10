@@ -18,6 +18,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.example.williammontiel.willmontiel.R;
 import com.example.williammontiel.willmontiel.deserializers.CharacterDeserializer;
+import com.example.williammontiel.willmontiel.holders.CharacterHolder;
 import com.example.williammontiel.willmontiel.misc.JsonKeys;
 import com.example.williammontiel.willmontiel.models.MarvelCharacter;
 import com.example.williammontiel.willmontiel.resources.Cons;
@@ -72,7 +73,7 @@ public class CharacterFragment extends FragmentBase {
         showProgress(true, layout, progress);
 
         // Instantiate the cache
-        Cache cache = new DiskBasedCache(this.context.getCacheDir(), 1024 * 1024); // 1MB cap
+        Cache cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024); // 1MB cap
         // Set up the network to use HttpURLConnection as the HTTP client.
         Network network = new BasicNetwork(new HurlStack());
         // Instantiate the RequestQueue with the cache and network.
@@ -122,9 +123,15 @@ public class CharacterFragment extends FragmentBase {
                     deserializer.setJsonObject(character);
                     deserializer.deserialize();
                     this.character = deserializer.getCharacter();
+
+                    CharacterHolder holder = new CharacterHolder(getView(), this.context);
+                    holder.setCharacter(this.character);
+                    holder.setDetailsData();
+
+                    showProgress(false, layout, progress);
                 }
 
-                
+
             }
         }
         catch (JSONException ex) {

@@ -39,32 +39,50 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
     protected MarvelCharacter character;
     public TextView id;
     public TextView name;
+    public TextView description;
+    public TextView total_comics;
     final public ImageView thumbnail;
 
     public CharacterHolder(View v, Context context) {
         super(v);
         this.context = context;
         name = (TextView) v.findViewById(R.id.name);
+        description = (TextView) v.findViewById(R.id.description);
+        total_comics = (TextView) v.findViewById(R.id.total_comics);
         thumbnail = (ImageView) v.findViewById(R.id.thumbnail);
-        characterDetails();
     }
 
     public void setCharacter(MarvelCharacter character) {
         this.character = character;
     }
 
-    public void setData() {
-        name.setText(character.getName());
-        final JSONObject thumbnailData = character.getThumbnail();
+    public void setSummaryData() {
+        name.setText(this.character.getName());
+        setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_PORTRAIT_MEDIUM ));
+        characterDetails();
+    }
 
+    public void setDetailsData() {
+        name.setText(this.character.getName());
+        description.setText(this.character.getDescription());
+        total_comics.setText("Hay " + this.character.getTotalComics() + " comics disponibles para este personaje");
+        setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_PORTRAIT_UNCANNY ));
+    }
+
+    public String getUrlThumbnail(String size) {
+        final JSONObject thumbnailData = this.character.getThumbnail();
         String durl = "";
         try {
-            durl = thumbnailData.get(JsonKeys.CHARACTER_THUMBNAIL_PATH) + "/" + JsonKeys.CHARACTER_THUMBNAIL_RATIO_PORTRAIT_MEDIUM + "." + thumbnailData.getString(JsonKeys.CHARACTER_THUMBNAIL_EXT);
+            durl = thumbnailData.get(JsonKeys.CHARACTER_THUMBNAIL_PATH) + "/" + size + "." + thumbnailData.getString(JsonKeys.CHARACTER_THUMBNAIL_EXT);
         }
         catch(JSONException ex) {
             ex.printStackTrace();
         }
 
+        return durl;
+    }
+
+    public void setThumbnail(String url) {
         // Instantiate the cache
         Cache cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024); // 1MB cap
         // Set up the network to use HttpURLConnection as the HTTP client.
@@ -74,7 +92,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
         // Start the queue
         mRequestQueue.start();
 
-        ImageRequest drequest = new ImageRequest(durl,
+        ImageRequest drequest = new ImageRequest(url,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {

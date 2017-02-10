@@ -15,7 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
@@ -28,6 +27,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.example.williammontiel.willmontiel.adapters.MarvelAdapter;
 import com.example.williammontiel.willmontiel.deserializers.CharacterDeserializer;
+import com.example.williammontiel.willmontiel.misc.EndlessRecyclerViewScrollListener;
 import com.example.williammontiel.willmontiel.misc.JsonKeys;
 import com.example.williammontiel.willmontiel.resources.Cons;
 import org.json.JSONArray;
@@ -39,8 +39,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends ActivityBase {
 
+    private EndlessRecyclerViewScrollListener scrollListener;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
 
@@ -49,10 +50,14 @@ public class MainActivity extends ActivityBase {
     private EditText search;
     public int offset = 0;
 
+    public List items = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        validateSession();
 
         layout = findViewById(R.id.recycler_view);
         progress = findViewById(R.id.main_progress);
@@ -61,10 +66,10 @@ public class MainActivity extends ActivityBase {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
-        getCharacters();
+        setRecyclerView();
     }
 
-    private void getCharacters() {
+    private void getCharacters(int page) {
         showProgress(true, layout, progress);
 
         String query = "";
@@ -81,9 +86,11 @@ public class MainActivity extends ActivityBase {
         // Start the queue
         mRequestQueue.start();
 
+        Log.d("LALA", Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query);
+
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + offset + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query,
+                Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -115,6 +122,26 @@ public class MainActivity extends ActivityBase {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        getCharacters(offset);
+
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+
+                Log.d("LALA", "" + page);
+                //loadNextDataFromApi(page);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        mRecyclerView.addOnScrollListener(scrollListener);
+    }
+
+    public void loadNextDataFromApi(int offset) {
+        getCharacters(offset);
     }
 
     public void setAdapter(List items) {
@@ -123,6 +150,8 @@ public class MainActivity extends ActivityBase {
 
         showProgress(false, layout, progress);
         mAdapter.notifyDataSetChanged();
+
+        scrollListener.resetState();
     }
 
     public void processResponseData(String response) {
@@ -135,7 +164,6 @@ public class MainActivity extends ActivityBase {
                 setErrorSnackBar(layout, Cons.NO_CHARACTERS);
             }
             else {
-                List items = new ArrayList();
                 CharacterDeserializer deserializer = new CharacterDeserializer();
 
                 for (int i = 0; i < chars.length(); i++) {
@@ -145,7 +173,7 @@ public class MainActivity extends ActivityBase {
                     items.add(deserializer.getCharacter());
                 }
 
-                setRecyclerView();
+                //setRecyclerView();
                 setAdapter(items);
             }
         }
@@ -204,7 +232,7 @@ public class MainActivity extends ActivityBase {
 
             search.setText(null);
 
-            getCharacters();
+            getCharacters(offset);
 
             isSearchOpened = false;
         } else { //open the search entry
@@ -220,7 +248,7 @@ public class MainActivity extends ActivityBase {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        getCharacters();
+                        getCharacters(offset);
                         return true;
                     }
                     return false;

@@ -3,6 +3,7 @@ package com.example.williammontiel.willmontiel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,10 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-
 import com.android.volley.VolleyError;
+import com.example.williammontiel.willmontiel.misc.UserSessionManager;
 import com.example.williammontiel.willmontiel.misc.VolleyErrorHandler;
+import com.example.williammontiel.willmontiel.models.User;
 import com.example.williammontiel.willmontiel.resources.Cons;
 
 /**
@@ -20,6 +22,8 @@ import com.example.williammontiel.willmontiel.resources.Cons;
  */
 
 public class ActivityBase extends AppCompatActivity {
+    UserSessionManager session;
+    User user;
     View progress;
     View layout;
     /**
@@ -70,5 +74,17 @@ public class ActivityBase extends AppCompatActivity {
         snackBarView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         TextView txtv = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
         txtv.setGravity(Gravity.CENTER);
+    }
+
+    public void validateSession() {
+        session = new UserSessionManager(getApplicationContext());
+
+        if(session.checkLogin()) {
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        user = session.getUserDetails();
     }
 }

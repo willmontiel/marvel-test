@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!--Error label text style-->
+    <style name="ErrorText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/primaryLightText</item>
+    </style>
+
+    <!--Input field style-->
+    <style name="EditTextStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/primaryLightText</item>
+        <item name="colorControlNormal">@color/primaryLightText</item>
+        <item name="colorControlActivated">@color/primaryLightText</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:textColorHint">@color/primaryLightText</item>
+        <item name="colorControlHighlight">@color/primaryLightText</item>
+    </style>
 </resources>

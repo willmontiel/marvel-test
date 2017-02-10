@@ -66,4 +66,9 @@ public class JsonKeys {
         public static final String CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_INCREDIBLE= "landscape_incredible"; //464x261px
 
 
+    /**
+     * User
+     */
+    public static final String USER_EMAIL = "email";
+    public static final String USER_PASSWORD = "password";
 }

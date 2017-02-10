@@ -48,7 +48,7 @@ public class CharacterDeserializer extends DeserializerValidator{
             List comics = new ArrayList();
             List series = new ArrayList();
             List stories = new ArrayList();
-            List urls = new ArrayList();
+            List<JSONObject> urls = new ArrayList<JSONObject>();
 
             for (int i = 0; i < comicsArray.length(); i++) {
                 comics.add(comicsArray.getJSONObject(i));

@@ -20,11 +20,15 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
 import com.example.williammontiel.willmontiel.CharacterActivity;
 import com.example.williammontiel.willmontiel.R;
+import com.example.williammontiel.willmontiel.WebViewActivity;
 import com.example.williammontiel.willmontiel.misc.JsonKeys;
 import com.example.williammontiel.willmontiel.models.MarvelCharacter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by Will Montiel on 02/09/2017.
@@ -41,6 +45,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
     public TextView name;
     public TextView description;
     public TextView total_comics;
+    public TextView more;
     final public ImageView thumbnail;
 
     public CharacterHolder(View v, Context context) {
@@ -48,7 +53,6 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
         this.context = context;
         name = (TextView) v.findViewById(R.id.name);
         description = (TextView) v.findViewById(R.id.description);
-        total_comics = (TextView) v.findViewById(R.id.total_comics);
         thumbnail = (ImageView) v.findViewById(R.id.thumbnail);
     }
 
@@ -63,6 +67,30 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
     }
 
     public void setDetailsData() {
+        total_comics = (TextView) itemView.findViewById(R.id.total_comics);
+        more = (TextView) itemView.findViewById(R.id.more);
+
+        List<JSONObject> urls = this.character.getUrls();
+        JSONObject url = urls.get(0);
+
+        try {
+            final String durl = url.getString(JsonKeys.CHARACTER_URLS_URL);
+            Log.d("LALA", durl);
+            more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, WebViewActivity.class);
+                    i.putExtra(JsonKeys.CHARACTER_URLS_URL, durl);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                }
+            });
+        }
+        catch(JSONException ex) {
+            ex.printStackTrace();
+        }
+
+
         name.setText(this.character.getName());
         description.setText(this.character.getDescription());
         total_comics.setText("Hay " + this.character.getTotalComics() + " comics disponibles para este personaje");

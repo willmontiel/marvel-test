@@ -98,6 +98,7 @@ public class MainActivity extends ActivityBase {
                     @Override
                     public void onResponse(String response) {
                         processResponseData(response, firstTime);
+                        showProgress(false, layout, progress);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
@@ -177,15 +178,6 @@ public class MainActivity extends ActivityBase {
     }
 
     private void refreshData() {
-        //int curSize = mAdapter.getItemCount();
-
-// replace this line with wherever you get new records
-
-// update the existing list
-// curSize should represent the first element that got added
-// newItems.size() represents the itemCount
-        //mAdapter.notifyItemRangeInserted(curSize, items.size());
-        //scrollListener.resetState();
         mAdapter.notifyDataSetChanged();
         showProgress(false, layout, progress);
     }

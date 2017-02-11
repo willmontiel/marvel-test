@@ -56,7 +56,6 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                app:hintTextAppearance="@style/TextAppearance.AppCompat"
                 android:textColorHint="#c1c2c4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

@@ -325,7 +325,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             User uExists = userDbHelper.getUser(mEmail);
             if (uExists != null) {
                 mMessage = getResources().getString(R.string.error_user_exists);
-                mSignInButton.setVisibility(View.GONE);
                 return false;
             }
 

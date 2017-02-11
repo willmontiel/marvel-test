@@ -98,7 +98,8 @@ public class MainActivity extends ActivityBase {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                            validateErrorResponse(error);
+                        showProgress(false, layout, progress);
+                        validateErrorResponse(error);
                     }
                 }) {
         };
@@ -114,8 +115,6 @@ public class MainActivity extends ActivityBase {
 
     public void processResponseData(String response, Boolean firstTime) {
         try {
-            items.clear();
-
             JSONObject resObj = new JSONObject(response);
             JSONObject dataObj = resObj.getJSONObject(JsonKeys.DATA);
             JSONArray chars = dataObj.getJSONArray(JsonKeys.RESULTS);
@@ -158,13 +157,13 @@ public class MainActivity extends ActivityBase {
         mAdapter = new MarvelAdapter(items, getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
         // Retain an instance so that you can call `resetState()` for fresh searches
+
         scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                Log.d("LALA", "" + page);
-                loadNextDataFromApi(page*20);
+                loadNextDataFromApi(page);
             }
         };
         // Adds the scroll listener to RecyclerView
@@ -187,7 +186,6 @@ public class MainActivity extends ActivityBase {
     }
 
     public void loadNextDataFromApi(int offset) {
-        Log.d("LALA", "Page " + offset);
         getCharacters(offset, false);
     }
 
@@ -249,6 +247,8 @@ public class MainActivity extends ActivityBase {
 
             search.setText(null);
 
+            items.clear();
+            scrollListener.resetState();
             getCharacters(offset, false);
 
             isSearchOpened = false;
@@ -265,6 +265,8 @@ public class MainActivity extends ActivityBase {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        items.clear();
+                        scrollListener.resetState();
                         getCharacters(offset, false);
                         return true;
                     }

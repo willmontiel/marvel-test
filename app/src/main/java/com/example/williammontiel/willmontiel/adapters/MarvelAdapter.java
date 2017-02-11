@@ -47,4 +47,6 @@ public class MarvelAdapter extends RecyclerView.Adapter<CharacterHolder> {
     public int getItemCount() {
         return this.items.size();
     }
+
+
 }

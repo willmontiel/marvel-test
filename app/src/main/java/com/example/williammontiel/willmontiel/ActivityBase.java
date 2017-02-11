@@ -32,8 +32,9 @@ public class ActivityBase extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     protected void showProgress(final boolean show, final View layout, final View progress) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+/*
             layout.setVisibility(show ? View.GONE : View.VISIBLE);
             layout.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
@@ -43,6 +44,7 @@ public class ActivityBase extends AppCompatActivity {
                 }
             });
 
+*/
             progress.setVisibility(show ? View.VISIBLE : View.GONE);
             progress.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -52,8 +54,11 @@ public class ActivityBase extends AppCompatActivity {
                 }
             });
         } else {
+
             progress.setVisibility(show ? View.VISIBLE : View.GONE);
+            /*
             layout.setVisibility(show ? View.GONE : View.VISIBLE);
+            */
         }
     }
 

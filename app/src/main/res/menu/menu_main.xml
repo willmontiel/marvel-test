@@ -11,4 +11,21 @@
         android:orderInCategory="200"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/options"
+        android:orderInCategory="101"
+        android:icon="@android:drawable/ic_menu_info_details">
+
+        <menu>
+            <item android:id="@+id/user_email"
+                android:title="email" />
+
+            <item android:id="@+id/logout"
+                android:title="@string/logout" />
+        </menu>
+
+    </item>
+
 </menu>

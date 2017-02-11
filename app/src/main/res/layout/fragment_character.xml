@@ -13,6 +13,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/custom_progress_background"
         android:layout_marginBottom="8dp"
         android:visibility="gone"/>
 
@@ -69,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:text="Character Description"
                     android:id="@+id/description"
-                    android:textColor="@color/primaryLightText"
+                    android:textColor="@color/blue"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"/>
 
@@ -92,19 +93,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="25dp"
                     android:listSelector="@android:color/transparent"
-                    android:divider="@null"/>
+                    android:divider="@null" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Series"
                     android:textColor="@color/secondary_text"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="10dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_series"
                     android:textColor="@color/primaryLightText"
@@ -112,7 +114,7 @@
 
                 <ListView
                     android:id="@+id/series_list"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="15dp"
@@ -120,9 +122,10 @@
                     android:divider="@null"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Eventos"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/secondary_text"
                     android:layout_marginLeft="10dp"/>
 
@@ -135,12 +138,13 @@
 
                 <ListView
                     android:id="@+id/events_list"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="15dp"
                     android:listSelector="@android:color/transparent"
                     android:divider="@null"/>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

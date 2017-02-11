@@ -35,11 +35,6 @@ public class MarvelAdapter extends RecyclerView.Adapter<CharacterHolder> {
         return new CharacterHolder(v, this.context);
     }
 
-    public void updateList(List<MarvelCharacter> items) {
-        this.items = items;
-        notifyDataSetChanged();
-    }
-
     @Override
     public void onBindViewHolder(final CharacterHolder holder, int position) {
         MarvelCharacter character = this.items.get(position);

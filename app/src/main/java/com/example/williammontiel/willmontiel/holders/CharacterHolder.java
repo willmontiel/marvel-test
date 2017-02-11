@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -131,13 +133,16 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
 
         total_comics.setText("Este personaje aparece en " + this.character.getTotalComics() + " comics diferentes");
         comics_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getComics())));
+        comics_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, this.character.getComics().size()*90));
 
 
         total_series.setText("Este personaje aparece en " + this.character.getTotalSeries() + " series diferentes");
         series_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getSeries())));
+        series_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, this.character.getSeries().size()*90));
 
         total_events.setText("Este personaje aparece en " + this.character.getTotalEvents() + " eventos diferentes");
         events_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getEvents())));
+        events_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, this.character.getEvents().size()*90));
 
         setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_INCREDIBLE ));
     }

@@ -57,7 +57,7 @@ public class MainActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //validateSession();
+        validateSession();
 
         layout = findViewById(R.id.recycler_view);
         progress = findViewById(R.id.main_progress);
@@ -65,12 +65,10 @@ public class MainActivity extends ActivityBase {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-
-        setRecyclerView();
-        getCharacters(offset);
+        getCharacters(offset, true);
     }
 
-    private void getCharacters(int page) {
+    private void getCharacters(int page, final Boolean firstTime) {
         showProgress(true, layout, progress);
 
         String query = "";
@@ -87,13 +85,14 @@ public class MainActivity extends ActivityBase {
         // Start the queue
         mRequestQueue.start();
 
+        Log.d("LALA", "URL: " + Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        processResponseData(response);
+                        processResponseData(response, firstTime);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
@@ -112,52 +111,11 @@ public class MainActivity extends ActivityBase {
         mRequestQueue.add(stringRequest);
     }
 
-    private void setRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        /*
-        getCharacters(offset);
-
-        // Retain an instance so that you can call `resetState()` for fresh searches
-        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-
-                Log.d("LALA", "" + page);
-                //loadNextDataFromApi(page);
-            }
-        };
-        // Adds the scroll listener to RecyclerView
-        mRecyclerView.addOnScrollListener(scrollListener);
-        */
-    }
-
-    public void loadNextDataFromApi(int offset) {
-        getCharacters(offset);
-    }
-
-    public void setAdapter(List items) {
-        mAdapter = new MarvelAdapter(items, getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
-
-        showProgress(false, layout, progress);
-        mAdapter.notifyDataSetChanged();
-
-        //scrollListener.resetState();
-    }
-
-    public void processResponseData(String response) {
+    public void processResponseData(String response, Boolean firstTime) {
         try {
-            Log.d("LALA", response);
+            items.clear();
+
             JSONObject resObj = new JSONObject(response);
             JSONObject dataObj = resObj.getJSONObject(JsonKeys.DATA);
             JSONArray chars = dataObj.getJSONArray(JsonKeys.RESULTS);
@@ -175,8 +133,11 @@ public class MainActivity extends ActivityBase {
                     items.add(deserializer.getCharacter());
                 }
 
-                //setRecyclerView();
-                setAdapter(items);
+                if (firstTime) {
+                    createRecyclerView();
+                } else {
+                    refreshData();
+                }
             }
         }
         catch (JSONException ex) {
@@ -184,9 +145,56 @@ public class MainActivity extends ActivityBase {
         }
     }
 
+    private void createRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new MarvelAdapter(items, getApplicationContext());
+        mRecyclerView.setAdapter(mAdapter);
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                Log.d("LALA", "" + page);
+                loadNextDataFromApi(page*20);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        mRecyclerView.addOnScrollListener(scrollListener);
+        showProgress(false, layout, progress);
+    }
+
+    private void refreshData() {
+        //int curSize = mAdapter.getItemCount();
+
+// replace this line with wherever you get new records
+
+// update the existing list
+// curSize should represent the first element that got added
+// newItems.size() represents the itemCount
+        //mAdapter.notifyItemRangeInserted(curSize, items.size());
+        //scrollListener.resetState();
+        mAdapter.notifyDataSetChanged();
+        showProgress(false, layout, progress);
+    }
+
+    public void loadNextDataFromApi(int offset) {
+        Log.d("LALA", "Page " + offset);
+        getCharacters(offset, false);
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mSearchAction = menu.findItem(R.id.action_search);
+        menu.findItem(R.id.user_email).setTitle(user.getEmail());
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -204,6 +212,13 @@ public class MainActivity extends ActivityBase {
         switch (id) {
             case R.id.action_search:
                 handleMenuSearch();
+                return true;
+
+            case R.id.user_email:
+                return true;
+
+            case R.id.logout:
+                session.logoutUser();
                 return true;
         }
 
@@ -234,7 +249,7 @@ public class MainActivity extends ActivityBase {
 
             search.setText(null);
 
-            getCharacters(offset);
+            getCharacters(offset, false);
 
             isSearchOpened = false;
         } else { //open the search entry
@@ -250,7 +265,7 @@ public class MainActivity extends ActivityBase {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        getCharacters(offset);
+                        getCharacters(offset, false);
                         return true;
                     }
                     return false;

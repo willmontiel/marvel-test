@@ -73,6 +73,11 @@ public class JsonKeys {
 
 
     /**
+     * Db
+     */
+    public static final String DB_NAME = "Marvel.db";
+
+    /**
      * User
      */
     public static final String USER_TABLE_NAME = "user";

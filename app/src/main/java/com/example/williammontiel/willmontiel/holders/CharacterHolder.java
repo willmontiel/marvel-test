@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Cache;
@@ -28,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +47,16 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
     public TextView id;
     public TextView name;
     public TextView description;
+    public TextView comicsSeries;
+
+    public ListView comics_list;
     public TextView total_comics;
+    public ListView series_list;
+    public TextView total_series;
+    public ListView events_list;
+    public TextView total_events;
+
+    public TextView comics;
     public TextView more;
     final public ImageView thumbnail;
 
@@ -62,13 +74,33 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
 
     public void setSummaryData() {
         name.setText(this.character.getName());
-        description.setText(this.character.getDescription());
+        comicsSeries = (TextView) itemView.findViewById(R.id.comicsSeries);
+        comicsSeries.setText("Este personaje participa en " + this.character.getTotalComics() + " comics y " + this.character.getTotalSeries() + " series.");
+
         setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_PORTRAIT_MEDIUM ));
         characterDetails();
     }
 
+    public ArrayList<String> extractComics() {
+        ArrayList<String> comicsList = new ArrayList<String>();
+
+        try {
+            List<JSONObject> comicsObj = this.character.getComics();
+            for (int i = 0; i < comicsObj.size(); i++) {
+                JSONObject comic = comicsObj.get(i);
+                comicsList.add(comic.getString(JsonKeys.CHARACTER_COMICS_NAME));
+            }
+        }
+        catch(JSONException ex) {
+            ex.printStackTrace();
+        }
+
+        return comicsList;
+    }
+
     public void setDetailsData() {
-        total_comics = (TextView) itemView.findViewById(R.id.total_comics);
+        name.setText(this.character.getName());
+        description.setText(this.character.getDescription());
         more = (TextView) itemView.findViewById(R.id.more);
 
         List<JSONObject> urls = this.character.getUrls();
@@ -91,9 +123,14 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
         }
 
 
-        name.setText(this.character.getName());
-        description.setText(this.character.getDescription());
-        total_comics.setText("Hay " + this.character.getTotalComics() + " comics disponibles para este personaje");
+        total_comics = (TextView) itemView.findViewById(R.id.total_comics);
+        comics_list = (ListView) itemView.findViewById(R.id.comics_list);
+
+
+        total_comics.setText("Este personaje aparece en " + this.character.getTotalComics() + " comics diferentes");
+
+        comics_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractComics()));
+
         setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_INCREDIBLE ));
     }
 

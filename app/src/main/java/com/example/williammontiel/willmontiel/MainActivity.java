@@ -57,7 +57,7 @@ public class MainActivity extends ActivityBase {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        validateSession();
+        //validateSession();
 
         layout = findViewById(R.id.recycler_view);
         progress = findViewById(R.id.main_progress);
@@ -151,7 +151,7 @@ public class MainActivity extends ActivityBase {
         showProgress(false, layout, progress);
         mAdapter.notifyDataSetChanged();
 
-        scrollListener.resetState();
+        //scrollListener.resetState();
     }
 
     public void processResponseData(String response) {

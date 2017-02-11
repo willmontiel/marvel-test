@@ -67,6 +67,7 @@ public class MainActivity extends ActivityBase {
         setSupportActionBar(mToolbar);
 
         setRecyclerView();
+        getCharacters(offset);
     }
 
     private void getCharacters(int page) {
@@ -85,8 +86,6 @@ public class MainActivity extends ActivityBase {
         RequestQueue mRequestQueue = new RequestQueue(cache, network);
         // Start the queue
         mRequestQueue.start();
-
-        Log.d("LALA", Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
@@ -123,6 +122,7 @@ public class MainActivity extends ActivityBase {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        /*
         getCharacters(offset);
 
         // Retain an instance so that you can call `resetState()` for fresh searches
@@ -138,6 +138,7 @@ public class MainActivity extends ActivityBase {
         };
         // Adds the scroll listener to RecyclerView
         mRecyclerView.addOnScrollListener(scrollListener);
+        */
     }
 
     public void loadNextDataFromApi(int offset) {
@@ -156,6 +157,7 @@ public class MainActivity extends ActivityBase {
 
     public void processResponseData(String response) {
         try {
+            Log.d("LALA", response);
             JSONObject resObj = new JSONObject(response);
             JSONObject dataObj = resObj.getJSONObject(JsonKeys.DATA);
             JSONArray chars = dataObj.getJSONArray(JsonKeys.RESULTS);

@@ -117,8 +117,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
                     context.startActivity(i);
                 }
             });
-        }
-        catch(JSONException ex) {
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
 
@@ -132,6 +131,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
 
         total_comics.setText("Este personaje aparece en " + this.character.getTotalComics() + " comics diferentes");
         comics_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getComics())));
+
 
         total_series.setText("Este personaje aparece en " + this.character.getTotalSeries() + " series diferentes");
         series_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getSeries())));

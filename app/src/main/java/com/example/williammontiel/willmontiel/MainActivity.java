@@ -68,6 +68,11 @@ public class MainActivity extends ActivityBase {
         getCharacters(offset, true);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private void getCharacters(int page, final Boolean firstTime) {
         showProgress(true, layout, progress);
 
@@ -85,7 +90,7 @@ public class MainActivity extends ActivityBase {
         // Start the queue
         mRequestQueue.start();
 
-        Log.d("LALA", "URL: " + Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query);
+        //Log.d("LALA", "URL: " + Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query);
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 Cons.URL_BASE + Cons.API + Cons.ALL_CHARACTERS  + Cons.APIKEY + Cons.MARVEL_DEVELOPER_APIKEY + Cons.HASH + Cons.MARVEL_DEVELOPER_HASH + Cons.OFFSET + page + Cons.TIMESTAMP + Cons.MARVEL_DEVELOPER_TIMESTAMP + query,

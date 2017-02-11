@@ -19,6 +19,8 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.williammontiel.willmontiel.CharacterActivity;
 import com.example.williammontiel.willmontiel.R;
 import com.example.williammontiel.willmontiel.WebViewActivity;
@@ -158,6 +160,12 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
     }
 
     public void setThumbnail(String url) {
+        Glide.with(this.context).load(url)
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(thumbnail);
+        /*
         // Instantiate the cache
         Cache cache = new DiskBasedCache(context.getCacheDir(), 1024 * 1024); // 1MB cap
         // Set up the network to use HttpURLConnection as the HTTP client.
@@ -181,6 +189,7 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
                 });
 
         mRequestQueue.add(drequest);
+        */
     }
 
     public void characterDetails() {

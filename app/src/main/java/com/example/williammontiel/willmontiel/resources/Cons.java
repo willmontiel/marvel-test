@@ -22,8 +22,8 @@ public class Cons {
     public static final String GET_ALL_CHARACTERS = URL_BASE + API + ALL_CHARACTERS + APIKEY + MARVEL_DEVELOPER_APIKEY + HASH + MARVEL_DEVELOPER_HASH + OFFSET + TIMESTAMP + MARVEL_DEVELOPER_TIMESTAMP;
     public static final String GET_CHARACTER = URL_BASE + API + CHARACTER + APIKEY + MARVEL_DEVELOPER_APIKEY + HASH + MARVEL_DEVELOPER_HASH + OFFSET;
 
-    final static public String ERROR_404 = "Recurso no encontrado";
+    final static public String ERROR_404 = "Página no encontrada";
     final static public String ERROR_401 = "Acceso denegado";
-    final static public String SERVER_ERROR = "Recurso no encontrado";
-    final static public String NO_CHARACTERS = "No se encontraron coincidencias";
+    final static public String SERVER_ERROR = "Ocurrió un error, por favor intenta más tarde.";
+    final static public String NO_CHARACTERS = "No se encontraron más coincidencias";
 }

@@ -83,7 +83,7 @@ public class UserSessionManager {
     public User getUserDetails(){
         User user = new User();
 
-        user.setEmail(JsonKeys.USER_EMAIL);
+        user.setEmail(pref.getString(JsonKeys.USER_EMAIL, null));
         // return user
         return user;
     }

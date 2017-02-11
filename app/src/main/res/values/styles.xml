@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/primaryLightText</item>
     </style>
 
 
@@ -15,12 +15,11 @@
     </style>
 
     <!--Input field style-->
-    <style name="EditTextStyle" parent="Theme.AppCompat.Light">
+    <style name="White" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/primaryLightText</item>
-        <item name="colorControlNormal">@color/primaryLightText</item>
-        <item name="colorControlActivated">@color/primaryLightText</item>
-        <item name="colorAccent">@android:color/white</item>
-        <item name="android:textColorHint">@color/primaryLightText</item>
-        <item name="colorControlHighlight">@color/primaryLightText</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

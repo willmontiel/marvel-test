@@ -81,11 +81,11 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
         characterDetails();
     }
 
-    public ArrayList<String> extractComics() {
+    public ArrayList<String> extractData(List<JSONObject> objects) {
         ArrayList<String> comicsList = new ArrayList<String>();
 
         try {
-            List<JSONObject> comicsObj = this.character.getComics();
+            List<JSONObject> comicsObj = objects;
             for (int i = 0; i < comicsObj.size(); i++) {
                 JSONObject comic = comicsObj.get(i);
                 comicsList.add(comic.getString(JsonKeys.CHARACTER_COMICS_NAME));
@@ -122,14 +122,22 @@ public class CharacterHolder extends RecyclerView.ViewHolder {
             ex.printStackTrace();
         }
 
-
         total_comics = (TextView) itemView.findViewById(R.id.total_comics);
         comics_list = (ListView) itemView.findViewById(R.id.comics_list);
+        total_series = (TextView) itemView.findViewById(R.id.total_series);
+        series_list = (ListView) itemView.findViewById(R.id.series_list);
+        total_events = (TextView) itemView.findViewById(R.id.total_events);
+        events_list = (ListView) itemView.findViewById(R.id.events_list);
 
 
         total_comics.setText("Este personaje aparece en " + this.character.getTotalComics() + " comics diferentes");
+        comics_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getComics())));
 
-        comics_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractComics()));
+        total_series.setText("Este personaje aparece en " + this.character.getTotalSeries() + " series diferentes");
+        series_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getSeries())));
+
+        total_events.setText("Este personaje aparece en " + this.character.getTotalEvents() + " eventos diferentes");
+        events_list.setAdapter(new ArrayAdapter<>(this.context, R.layout.list_item, extractData(this.character.getEvents())));
 
         setThumbnail(getUrlThumbnail(JsonKeys.CHARACTER_THUMBNAIL_RATIO_LANDSCAPE_INCREDIBLE ));
     }

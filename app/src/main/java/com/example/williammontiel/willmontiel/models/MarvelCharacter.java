@@ -19,13 +19,31 @@ public class MarvelCharacter {
     public List<JSONObject> series;
     public int totalStories;
     public List<JSONObject> stories;
+    public List<JSONObject> events;
+    public int totalEvents;
     public List<JSONObject> urls;
+
+    public int getTotalEvents() {
+        return totalEvents;
+    }
+
+    public void setTotalEvents(int totalEvents) {
+        this.totalEvents = totalEvents;
+    }
 
     public MarvelCharacter() {
     }
 
     public int getId() {
         return id;
+    }
+
+    public List<JSONObject> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<JSONObject> events) {
+        this.events = events;
     }
 
     public void setId(int id) {

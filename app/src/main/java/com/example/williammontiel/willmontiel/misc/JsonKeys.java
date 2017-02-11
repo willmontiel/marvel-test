@@ -41,6 +41,12 @@ public class JsonKeys {
     public static final String CHARACTER_STORIES_TYPE = "type";
     public static final String CHARACTER_STORIES_ARRAY = "items";
 
+    public static final String CHARACTER_EVENTS_OBJECT = "events";
+    public static final String CHARACTER_TOTAL_EVENTS = "available";
+    public static final String CHARACTER_EVENTS_RESOURCE_URI = "resourceURI";
+    public static final String CHARACTER_EVENTS_NAME = "name";
+    public static final String CHARACTER_EVENTS_ARRAY = "items";
+
     public static final String CHARACTER_URLS_URL = "url";
     public static final String CHARACTER_URLS_TYPE = "type";
     public static final String CHARACTER_URLS_ARRAY = "urls";

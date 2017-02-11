@@ -43,11 +43,16 @@ public class CharacterDeserializer extends DeserializerValidator{
             int totalStories = storiesObject.getInt(JsonKeys.CHARACTER_TOTAL_STORIES);
             JSONArray storiesArray = storiesObject.getJSONArray(JsonKeys.CHARACTER_STORIES_ARRAY);
 
+            JSONObject eventsObject = jsonObject.getJSONObject(JsonKeys.CHARACTER_EVENTS_OBJECT);
+            int totalEvents = eventsObject.getInt(JsonKeys.CHARACTER_TOTAL_EVENTS);
+            JSONArray eventsArray = eventsObject.getJSONArray(JsonKeys.CHARACTER_EVENTS_ARRAY);
+
             JSONArray urlsArray = jsonObject.getJSONArray(JsonKeys.CHARACTER_URLS_ARRAY);
 
             List comics = new ArrayList();
             List series = new ArrayList();
             List stories = new ArrayList();
+            List events = new ArrayList();
             List<JSONObject> urls = new ArrayList<JSONObject>();
 
             for (int i = 0; i < comicsArray.length(); i++) {
@@ -60,6 +65,10 @@ public class CharacterDeserializer extends DeserializerValidator{
 
             for (int i = 0; i < storiesArray.length(); i++) {
                 stories.add(storiesArray.getJSONObject(i));
+            }
+
+            for (int i = 0; i < eventsArray.length(); i++) {
+                events.add(eventsArray.getJSONObject(i));
             }
 
             for (int i = 0; i < urlsArray.length(); i++) {
@@ -78,6 +87,8 @@ public class CharacterDeserializer extends DeserializerValidator{
             character.setSeries(series);
             character.setTotalStories(totalStories);
             character.setStories(stories);
+            character.setEvents(events);
+            character.setTotalEvents(totalEvents);
             character.setUrls(urls);
             character.setThumbnail(thumbnail);
         }
